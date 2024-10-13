@@ -1,18 +1,9 @@
-public abstract class DeuxRoues implements Location {
-    protected int Id_prod ; 
-    protected float prix_location;
-    protected int nb_location ; 
-    protected Boolean hors_service ;
-    private static int  locations_created = 0 ;
-
-    public DeuxRoues(){
-        this.Id_prod = locations_created ;
-        IncrementeLocationId();
+public class EquipePanier implements Locations {
+    public EquipePanier ( DeuxRoues v){
+        this.v = v ;
     }
 
-    private static IncrementeLocationId(){
-        locations_created++;
-    }
+
 
     @Override
     public void Louer(Client C){
@@ -53,8 +44,4 @@ public abstract class DeuxRoues implements Location {
     public void ChangeStateService(){
         this.hors_service = !this.hors_service ;
     }
-
-
-
-
 }
