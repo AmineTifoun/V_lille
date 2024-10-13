@@ -21,4 +21,17 @@ public class V_lille { /* SINGLOTENT  */
         }
         return unique_agence ;
     }
+
+    public intervenir( Intervention i , Station y){
+        /* Body of methodes */
+    }
+
+    public void addStation (Station S){
+        this.stations.add(S);
+    }
+
+    public void AddIntervention(Intervention i){
+        this.personnel.add(i);
+    }
+
 }

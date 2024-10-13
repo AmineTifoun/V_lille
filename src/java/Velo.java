@@ -6,4 +6,8 @@ public class Velo extends DeuxRoues {
         this.nb_location = nb_location ;
     }
 
+    @Override
+    public void louer(){
+        /* body of the methode  */
+    }
 }
