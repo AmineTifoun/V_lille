@@ -1,3 +1,4 @@
+package fil.l3.coo;
 
 public abstract class Personnel implements Intervention {
     protected int ID_personnel ; 
@@ -16,5 +17,5 @@ public abstract class Personnel implements Intervention {
         ID_actual++;
     }
 
-    abstract void Interagir( Locations v) ;
+    
 }

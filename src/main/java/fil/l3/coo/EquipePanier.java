@@ -1,13 +1,16 @@
-public class EquipeBagage implements Locations {
-    public EquipeBagage ( DeuxRoues v){
+package fil.l3.coo;
+public class EquipePanier /*implements Locations*/ {
+    private DeuxRoues v ; 
+
+    public EquipePanier ( DeuxRoues v){
         this.v = v ;
     }
 
 
 
-    @Override
-    public void Louer(Client C){
-        /* The body must be filled */
+   /*  @Override
+    public void Louer(){
+        /* The body must be filled 
     }
 
 
@@ -43,7 +46,5 @@ public class EquipeBagage implements Locations {
     @Override
     public void ChangeStateService(){
         this.hors_service = !this.hors_service ;
-    }
-
-    
+    }*/
 }

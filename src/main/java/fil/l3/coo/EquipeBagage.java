@@ -1,22 +1,16 @@
-public abstract class DeuxRoues implements Location {
-    protected int Id_prod ; 
-    protected float prix_location;
-    protected int nb_location ; 
-    protected Boolean hors_service ;
-    private static int  locations_created = 0 ;
+package fil.l3.coo;
+public class EquipeBagage /*implements Locations */{
+    private DeuxRoues v ; 
 
-    public DeuxRoues(){
-        this.Id_prod = locations_created ;
-        IncrementeLocationId();
+    public EquipeBagage ( DeuxRoues v){
+        this.v = v ;
     }
 
-    private static IncrementeLocationId(){
-        locations_created++;
-    }
 
+/*
     @Override
-    public void Louer(Client C){
-        /* The body must be filled */
+    public void Louer( ){
+        /* The body must be filled 
     }
 
 
@@ -54,7 +48,5 @@ public abstract class DeuxRoues implements Location {
         this.hors_service = !this.hors_service ;
     }
 
-
-
-
+    */
 }
