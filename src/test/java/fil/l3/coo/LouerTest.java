@@ -17,6 +17,7 @@ public class LouerTest {
             c.Louer(v);
             assertEquals(9800,(short) c.getMoney() );
             assertEquals(1 , v.get_NbLocation()- nb_location );
+            assertEquals(c.getVehicule(), v);
         }catch( Exception e){
             e.printStackTrace();
         }
@@ -40,4 +41,5 @@ public class LouerTest {
         });
     }
     
+
 }

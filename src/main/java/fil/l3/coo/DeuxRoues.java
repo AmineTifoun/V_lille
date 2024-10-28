@@ -19,6 +19,16 @@ public abstract class DeuxRoues implements Locations {
 
 
     @Override
+
+    public int compareTo( DeuxRoues l){
+        return this.Id_prod - l.getId_prod();
+    }
+
+    public int getId_prod() {
+        return Id_prod;
+    }
+
+    @Override
     public Boolean estVole(){
         if(1==1){
             return true ;
