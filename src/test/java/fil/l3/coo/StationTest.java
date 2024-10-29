@@ -15,12 +15,27 @@ public class StationTest {
     private static final int  Nb_place_Ok =10 ;
     private MockVelo v = new MockVelo(false, Nb_place_notOk, Nb_place_Ok) ; 
 
+
+    @Test
+    void CreationTest(){
+        Station s1 = new Station(Nb_place_Ok);
+        Station s2 = new Station(Nb_place_Ok);
+            assertFalse(s1.getId_station() == s2.getId_station());
+    }
+
+    @Test 
+    void testAvailablePlaces(){
+        Station sOk=  new Station(Nb_place_Ok);
+        assertEquals(Nb_place_Ok , sOk.getPlaces().size());
+    }
+
     @Test  
     public void TestAjoutOK() throws Exception{
         Station s = new Station(Nb_place_Ok);
+        System.out.println(s.getPlaces());
         s.Deposer(v);
         assertEquals(s.getPlaces_restantes(), Nb_place_Ok-1);
-        assertTrue(s.getPlaces().contains(v));
+        assertTrue(s.ContainsLocations(v));
     }
 
 
@@ -31,7 +46,7 @@ public class StationTest {
             s.Deposer(v); 
         });
         assertEquals(s.getPlaces_restantes(),Nb_place_notOk);
-        assertFalse(s.getPlaces().contains(v));
+        assertFalse(s.ContainsLocations(v));
     }
 
 
@@ -42,7 +57,7 @@ public class StationTest {
         s.Deposer(v);
         Locations l  = s.Retirer(v.getId_prod());
         assertEquals(nb_place_before, s.getPlaces_restantes());
-        assertFalse(s.getPlaces().contains(l));
+        assertFalse(s.ContainsLocations(v));    
     }
 
     @Test
@@ -53,7 +68,7 @@ public class StationTest {
         });
         assertThrows(IdNotFound.class, ()->{
             s.Deposer(v);
-            s.Retirer(v.getId_prod()+1);
+            Locations m = s.Retirer(v.getId_prod()+1);
         });
     }
 

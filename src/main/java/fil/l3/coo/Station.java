@@ -7,20 +7,32 @@ import fil.l3.coo.ExceptionsControlled.StationVide;
 
 
 public class Station {
-    private Set<Locations> places ; 
+    private int id_station ;
+    private Set<Emplacement> places ; 
     private int nb_palces ;
     private int places_restantes ;
+    static int current_id =0 ; 
 
 
     public Station( int nb_places ){
-        this.places = new TreeSet<Locations>();
+        this.places = new TreeSet<Emplacement>();
+        for( int i = 1 ; i<= nb_places ; i++){
+            this.places.add( new Emplacement());
+        }
         this.nb_palces = nb_places;
         this.places_restantes =nb_places;
+        this.id_station = current_id ; 
+        Incremente_ID();
        }
 
+    static void Incremente_ID(){
+        current_id ++ ; 
+    }
     public void Deposer( Locations l) throws Exception{
-        if(this.placesAvailbale()){
-            this.places.add(l);
+        List <Emplacement> dispo = this.placesAvailbale() ;
+        if(this.places.size() != 0){
+            Emplacement e = dispo.get(0);
+            e.Deposer(l);
             this.places_restantes --;
         }else{
             throw new NotPlacesAvailable(); 
@@ -28,16 +40,13 @@ public class Station {
     }
 
     public Locations Retirer ( int id_prod) throws Exception{
-        if( ! this.StationVide()){
-            Iterator<Locations> l = getPlaces().iterator();
-            boolean end = false ;
-            while(! end && l.hasNext()){
-                Locations element = l.next();
-                if(element.getId_prod() == id_prod){
-                    end = true ;
-                    l.remove();
+        if( !this.StationVide()){
+            Iterator<Emplacement> l = getPlaces().iterator();
+            while( l.hasNext()){
+                Emplacement element = l.next();
+                if(element.isOccupe() && element.getLocations().getId_prod() == id_prod){
                     this.places_restantes ++;
-                    return element ;
+                    return element.Retirer()  ;
                  }
             }
             throw new IdNotFound();
@@ -47,31 +56,65 @@ public class Station {
     }
 
     public boolean StationVide (){
-        return this.places_restantes == nb_palces ;
+        boolean assertion = true ;
+        for( Emplacement e : this.places){
+            assertion = assertion && ( e.isOccupe() == false);
+        };
+        return assertion ;
     }
 
-    public boolean placesAvailbale(){
-        return this.places_restantes !=  0 ;
+    public List<Emplacement> placesAvailbale(){
+        List<Emplacement> l = new ArrayList<Emplacement>();
+        for( Emplacement e : this.places){
+            if( !e.isOccupe()){
+                l.add(e);
+            }
+        }
+        return l ; 
     }
 
-    public void DeposerLot ( List<Locations> l){
-        this.places_restantes = this.places_restantes- l.size();
+    public void DeposerLot ( List<Locations> l) throws Exception{
+        for( int i = 0 ; i< l.size() && ! isStationPleine()  ; i++ ){
+            Locations element = l.get(i);
+            this.Deposer(element);
+        }
     }
 
-    public List<Locations> RetirerLot( List<Locations> l){
-        this.places_restantes = this.places_restantes + l.size();
-        List<Locations> m = new ArrayList<>();
-        return m ;
+    public boolean isStationPleine(){
+        return this.places_restantes == 0 ;
+    }
+    public List<Locations> RetirerLot( List<Locations> l) throws Exception{
+        List<Locations> list = new ArrayList<Locations>();
+        for( int i = 0 ; i< l.size() ; i++ ){
+            Locations element = l.get(i);
+            list.add(this.Retirer(element.getId_prod()));
+        }
+        return list ; 
+       
     }
 
     public int getPlaces_restantes() {
         return places_restantes;
     }
 
-    public Set<Locations> getPlaces() {
-        return places;
+    public Set<Emplacement> getPlaces() {
+        return this.places;
     }
 
+    public int getId_station() {
+        return id_station;
+    }
+
+
+    public boolean ContainsLocations( Locations v){
+        boolean assertion  = false ; 
+        for( Emplacement e : this.places){
+            if( e.getLocations() != null && e.getLocations().equals(v)){
+                assertion = true ;
+            }
+        }
+        return assertion ; 
+    }
     
     
     

@@ -16,16 +16,16 @@ public class V_lille { /* SINGLOTENT  */
     }
 
 
-   /* public static V_lille getInstance(){
+   public static V_lille getInstance(){
         if( unique_agence == null){
             unique_agence = new  V_lille();
         }
         return unique_agence ;
     }
 
-    public void intervenir( Intervention i , Station y){
+   /* public void intervenir( Intervention i , Station y){
         /* Body of methodes */
-   /*  }
+   /*  }*/
 
     public void addStation (Station S){
         this.stations.add(S);
@@ -33,6 +33,6 @@ public class V_lille { /* SINGLOTENT  */
 
     public void AddIntervention(Intervention i){
         this.personnel.add(i);
-    }*/
+    }
 
 }

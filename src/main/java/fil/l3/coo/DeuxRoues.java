@@ -20,7 +20,7 @@ public abstract class DeuxRoues implements Locations {
 
     @Override
 
-    public int compareTo( DeuxRoues l){
+    public int compareTo( Locations l){
         return this.Id_prod - l.getId_prod();
     }
 

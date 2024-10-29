@@ -1,6 +1,6 @@
 package fil.l3.coo;
 
-public interface Locations extends Comparable<DeuxRoues> {
+public interface Locations extends Comparable<Locations> {
      void Louer();
      float getPrixLocation();
      boolean getEtatService();
@@ -10,6 +10,6 @@ public interface Locations extends Comparable<DeuxRoues> {
      float getCaution();
      int getIdDeuxRoues();
      Boolean estVole();
-     int compareTo(DeuxRoues other) ;
+     int compareTo(Locations other) ;
      int getId_prod();
 }
