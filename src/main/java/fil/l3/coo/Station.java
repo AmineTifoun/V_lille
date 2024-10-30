@@ -2,7 +2,6 @@ package fil.l3.coo;
 import java.util.* ;
 
 import fil.l3.coo.ExceptionsControlled.IdNotFound;
-import fil.l3.coo.ExceptionsControlled.NotInService;
 import fil.l3.coo.ExceptionsControlled.NotPlacesAvailable;
 import fil.l3.coo.ExceptionsControlled.StationVide;
 
@@ -59,6 +58,18 @@ public class Station {
         }else{
             throw new StationVide(); 
         }
+    }
+
+    public Locations Retirer() throws Exception {
+        for(Emplacement v : this.places){
+            if( v.isOccupe()){
+                Locations m = v.Retirer();
+                this.notifier.notify("RETRAIT ", "\t LA LAOCATION : "+m.getId_prod()+"A ETE RETIRE A LA STATION : "+this.id_station);
+                this.places_restantes++;
+                return m ;
+            }
+        }
+        throw new StationVide();
     }
 
     public boolean StationVide (){
