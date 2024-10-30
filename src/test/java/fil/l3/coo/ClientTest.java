@@ -7,7 +7,7 @@ import fil.l3.coo.ExceptionsControlled.NotInService;
 
 
 
-public class LouerTest {
+public class ClientTest {
     @Test
     public void testLouerOK(){
         Client c = new Client ( "Tifoun" ,  "Mohamed" , 10000 );
@@ -41,5 +41,19 @@ public class LouerTest {
         });
     }
     
+
+    @Test
+    public void DepotTest() throws Exception{
+        Locations l = new Velo(10 , false , 100);
+        Client c = new MockClient(400);
+        c.Louer(l);/* ALREADY TESTED */
+        assertEquals(300, c.getMoney());
+        Station s = new Station(1);
+        Thread.sleep(60000); // 1 minutes in milliseconds
+        c.DeposerLocationDansStation(s);
+        assertEquals(390,c.getMoney());
+        assertEquals(null, c.getVehicule());
+
+    }
 
 }

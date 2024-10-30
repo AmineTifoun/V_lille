@@ -4,15 +4,15 @@ public class Velo extends DeuxRoues {
         super();
         this.prix_location = prix_location ;
         this.hors_service = hors_service ; 
-        this.caution = caution ; 
+        this.caution = caution ;    
         this.louee = false ;
     }
 
     @Override
     public void Louer(){
         this.nb_location++;
-        System.out.println("THIS ::"+this.nb_location);
         this.louee = true ;
+        
     }
 
 

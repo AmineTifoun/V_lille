@@ -2,22 +2,25 @@ package fil.l3.coo;
 import java.util.* ;
 
 import fil.l3.coo.ExceptionsControlled.IdNotFound;
+import fil.l3.coo.ExceptionsControlled.NotInService;
 import fil.l3.coo.ExceptionsControlled.NotPlacesAvailable;
 import fil.l3.coo.ExceptionsControlled.StationVide;
 
 
 public class Station {
     private int id_station ;
-    private Set<Emplacement> places ; 
+    private List<Emplacement> places ; 
     private int nb_palces ;
+     private GestionnaireNotif notifier=  new GestionnaireNotif() ;
     private int places_restantes ;
     static int current_id =0 ; 
 
 
     public Station( int nb_places ){
-        this.places = new TreeSet<Emplacement>();
+        this.places = new ArrayList<Emplacement>();
         for( int i = 1 ; i<= nb_places ; i++){
-            this.places.add( new Emplacement());
+            Emplacement e = new Emplacement();
+            this.places.add( e );
         }
         this.nb_palces = nb_places;
         this.places_restantes =nb_places;
@@ -33,6 +36,7 @@ public class Station {
         if(this.places.size() != 0){
             Emplacement e = dispo.get(0);
             e.Deposer(l);
+            this.notifier.notify("DEPOT ", "\t LA LAOCATION : "+l.getId_prod()+"A ETE DEPOSE A LA STATION : "+this.id_station);
             this.places_restantes --;
         }else{
             throw new NotPlacesAvailable(); 
@@ -46,7 +50,9 @@ public class Station {
                 Emplacement element = l.next();
                 if(element.isOccupe() && element.getLocations().getId_prod() == id_prod){
                     this.places_restantes ++;
-                    return element.Retirer()  ;
+                    Locations v = element.Retirer();
+                    this.notifier.notify("RETRAIT ", "\t LA LAOCATION : "+v.getId_prod()+"A ETE RETIRE A LA STATION : "+this.id_station);
+                    return v  ;
                  }
             }
             throw new IdNotFound();
@@ -97,7 +103,7 @@ public class Station {
         return places_restantes;
     }
 
-    public Set<Emplacement> getPlaces() {
+    public List<Emplacement> getPlaces() {
         return this.places;
     }
 
@@ -116,6 +122,26 @@ public class Station {
         return assertion ; 
     }
     
+    
+    public void Louer(Client c) throws Exception{
+        if(! this.StationVide()){
+            for( Emplacement e : this.places){
+                if( e.isOccupe() && !e.getLocations().isHors_service()){
+                    Locations s = e.Retirer();
+                    c.Louer(s);
+                    this.places_restantes++ ;
+                    this.notifier.notify("LOCATION" , "LE VELO: "+s.getId_prod() +" VIENT D'ETRES LOUE au Client : [ Nom = "+c.getNom()+"] - [ Prenom ="+c.getPrenom()+"]");
+                }
+            }
+
+        }else{
+            throw new StationVide();
+        }
+    }
+
+
+   
+
     
     
 }

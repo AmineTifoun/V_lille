@@ -72,6 +72,15 @@ public class StationTest {
         });
     }
 
+    @Test
+    public void TestLouerOK() throws Exception{
+        Client c = new Client("Mohamed", "null, Nb_place_Ok" , 4000);
+        Station s = new Station(Nb_place_Ok);
+        s.Deposer(v);
+        s.Louer(c);
+        assertEquals(s.getPlaces_restantes(),Nb_place_Ok);
+    }
+
 
 
     

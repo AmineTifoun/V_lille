@@ -9,7 +9,10 @@ public interface Locations extends Comparable<Locations> {
      void ChangeStateService();
      float getCaution();
      int getIdDeuxRoues();
+     boolean isDepose();
+     void setDeposer(boolean f); 
      Boolean estVole();
+     boolean isHors_service();
      int compareTo(Locations other) ;
      int getId_prod();
 }

@@ -5,21 +5,35 @@ import fil.l3.coo.ExceptionsControlled.PlacementProbleme;
 public class Emplacement implements Comparable<Emplacement> {
     private Locations v  ; 
     private boolean occupe ; 
+    private  int ID  ;
+    private static int incrementer = 0 ;
+    
 
     public Emplacement(){
         this.occupe = false ; 
         this.v = null;
+        this.ID = incrementer;
+        incrementID();
     }
 
+    static void incrementID(){
+        incrementer++ ;
+    }
 
     @Override
     public int compareTo(Emplacement other) {
-        return Integer.compare(System.identityHashCode(this), System.identityHashCode(other));
-    }    
+        return Integer.compare(this.getID(), other.getID());
+    }
+    
+    
+    public int getID(){
+        return this.ID ;
+    }
 
     public void Deposer(Locations v) throws Exception{
         if(! this.occupe){
             this.v = v;
+            this.v.setDeposer(true);
             this.occupe = true ;
 
         }else{
@@ -31,6 +45,7 @@ public class Emplacement implements Comparable<Emplacement> {
     public Locations Retirer() throws Exception{
         if(this.occupe){
             Locations e = this.v ;
+            e.setDeposer(false);
             this.v = null;
             this.occupe = false ;
             return e ;
