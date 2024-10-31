@@ -33,13 +33,17 @@ public class Station {
     public void Deposer( Locations l) throws Exception{
         List <Emplacement> dispo = this.placesAvailbale() ;
         if(this.places.size() != 0){
-            Emplacement e = dispo.get(0);
+                Emplacement e = dispo.get(0);
             e.Deposer(l);
             this.notifier.notify("DEPOT ", "\t LA LAOCATION : "+l.getId_prod()+"A ETE DEPOSE A LA STATION : "+this.id_station);
             this.places_restantes --;
         }else{
             throw new NotPlacesAvailable(); 
         }
+    }
+
+    public int getNb_palces() {
+        return nb_palces;
     }
 
     public Locations Retirer ( int id_prod) throws Exception{
