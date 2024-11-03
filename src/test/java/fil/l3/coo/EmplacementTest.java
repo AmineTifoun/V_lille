@@ -18,7 +18,6 @@ public class EmplacementTest {
 
     @Test
     void RetirerOk() throws Exception {
-        Emplacement vide = new Emplacement() ;
         s.Deposer(v);
         Locations e = s.Retirer();
         assertEquals(v, e);

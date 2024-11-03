@@ -1,5 +1,5 @@
 package fil.l3.coo;
-public abstract class DeuxRoues implements Locations {
+public abstract class DeuxRoues implements Locations , AccesForReparation  {
     protected int Id_prod ; 
     protected float caution ; 
     protected float prix_location;
@@ -7,7 +7,8 @@ public abstract class DeuxRoues implements Locations {
     protected boolean hors_service ;
     protected boolean louee;
     protected GestionnaireNotif notifier ; 
-    protected boolean depose ; 
+    protected boolean depose ;
+    protected final int limite_location = 5 ; 
     private static int  locations_created = 0 ;
 
     public DeuxRoues(){
@@ -26,7 +27,7 @@ public abstract class DeuxRoues implements Locations {
     public int compareTo( Locations l){
         return this.Id_prod - l.getId_prod();
     }
-
+    @Override
     public int getId_prod() {
         return Id_prod;
     }
@@ -34,9 +35,9 @@ public abstract class DeuxRoues implements Locations {
 
     @Override
     public Boolean estVole(){
-        if(1==1){
+        /*if(1==1){
             return true ;
-        }
+        }*/
         return false ;
     }
 
@@ -74,6 +75,12 @@ public abstract class DeuxRoues implements Locations {
         this.hors_service = !this.hors_service ;
     }
 
+    @Override
+    public void setEtatSerice(){
+        this.ChangeStateService();
+    }
+
+    @Override
     public float getCaution (){
         return this.caution ;
     }
@@ -90,6 +97,13 @@ public abstract class DeuxRoues implements Locations {
         return this.hors_service;
     }
 
+    public void askForIntervention()throws Exception{ /* A tester */
+        if ( this.nb_location > this.limite_location){
+            this.hors_service=true ; 
+            System.out.println("11");
+            this.notifier.call_for_intervention(this);
+        }
+    } 
     
 
 

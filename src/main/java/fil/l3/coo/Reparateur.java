@@ -4,12 +4,12 @@ public class Reparateur extends Personnel{
         super(Nom , Prenom);
     }
 
-    public void Interagir(Locations v){
-        this.Reparer(v);
+    public void Interagir(int periode_of_intervention) throws Exception{
+        this.Reparer(periode_of_intervention);
     }
 
-    public void Reparer(Locations v){
-        /* Body of the methode */
+    public void Reparer(int periode)throws Exception{
+        Thread.sleep(periode*60000);
     }
     
 }

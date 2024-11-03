@@ -5,7 +5,10 @@ public class GestionnaireNotif {
 
     public void notify( String event  , String content  ){
         V_lille.getInstance().update("Un evenement de :"+event+" a été declanché . \t [ Voir Contenu ] \n "+ content);
+    }
 
+    public void call_for_intervention(AccesForReparation i) throws Exception{
+        V_lille.getInstance().askForIntervention(i);
     }
     
 }

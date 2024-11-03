@@ -15,4 +15,5 @@ public interface Locations extends Comparable<Locations> {
      boolean isHors_service();
      int compareTo(Locations other) ;
      int getId_prod();
+     void askForIntervention() throws Exception ;
 }

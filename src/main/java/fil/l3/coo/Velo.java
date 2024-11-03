@@ -12,7 +12,6 @@ public class Velo extends DeuxRoues {
     public void Louer(){
         this.nb_location++;
         this.louee = true ;
-        
     }
 
 

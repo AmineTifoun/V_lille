@@ -29,7 +29,7 @@ public class Client {
     }
 
     public void Louer( Locations v) throws Exception {
-        if( !v.getEtatService()){
+        if( !v.getEtatService() ){
             if( this.money < v.getCaution()){
                 throw new NotEnoughMoneyException(ID_client);
             }else{
@@ -45,7 +45,7 @@ public class Client {
     }
 
     
-    public void DeposerLocationDansStation(Station s )throws Exception{
+    public void DeposerLocationDansStation(AccesForRent s )throws Exception{
         this.fin = LocalDateTime.now();
         long time = this.getDuration(); 
         this.Debiter(time);

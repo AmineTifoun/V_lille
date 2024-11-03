@@ -6,7 +6,7 @@ import fil.l3.coo.ExceptionsControlled.NotPlacesAvailable;
 import fil.l3.coo.ExceptionsControlled.StationVide;
 
 
-public class Station {
+public class Station implements AccesForRent{
     private int id_station ;
     private List<Emplacement> places ; 
     private int nb_palces ;
@@ -30,10 +30,11 @@ public class Station {
     static void Incremente_ID(){
         current_id ++ ; 
     }
+    @Override
     public void Deposer( Locations l) throws Exception{
         List <Emplacement> dispo = this.placesAvailbale() ;
         if(this.places.size() != 0){
-                Emplacement e = dispo.get(0);
+            Emplacement e = dispo.get(0);
             e.Deposer(l);
             this.notifier.notify("DEPOT ", "\t LA LAOCATION : "+l.getId_prod()+"A ETE DEPOSE A LA STATION : "+this.id_station);
             this.places_restantes --;
@@ -141,7 +142,7 @@ public class Station {
     public void Louer(Client c) throws Exception{
         if(! this.StationVide()){
             for( Emplacement e : this.places){
-                if( e.isOccupe() && !e.getLocations().isHors_service()){
+                if( e.isOccupe() && !e.getLocations().getEtatService()){
                     Locations s = e.Retirer();
                     c.Louer(s);
                     this.places_restantes++ ;

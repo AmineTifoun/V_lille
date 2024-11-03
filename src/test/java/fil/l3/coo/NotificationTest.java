@@ -1,8 +1,7 @@
 package fil.l3.coo;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.platform.commons.util.ExceptionUtils;
 
 public class NotificationTest {
@@ -37,5 +36,32 @@ public class NotificationTest {
 
     }
 
+
+    @Test
+    void TestAskForIntervention() throws Exception{
+        this.DistributeVeloInStation();
+        int taille = this.v.getNotifications().size();
+        this.v.REDISTRIBUTION_METHODE_CLASSIQUE();
+        assertTrue(taille< this.v.getNotifications().size());
+    }
+
+    private void DistributeVeloInStation()throws Exception{
+        if( ! v.isInitialized()){
+            v.Distribution();
+        }
+     }
+
+    
+    @Test
+    public void testerLaDemandeDinterventionDeuxRoues() throws Exception{
+        /* Apres un certain nombre de locations, le velo devient hors service !! donc une demande d'intervention est faite  */
+        for ( int i =0 ; i<=6  ; i++){
+            this.velo.Louer();
+            this.velo.askForIntervention();
+        }
+        assertEquals(this.v.popNotification(), "The Product with [ id = "+ velo.getId_prod()+"] is Seeking for Intervention IMMEDIALTLY !");
+    }
+
+    
     
 }

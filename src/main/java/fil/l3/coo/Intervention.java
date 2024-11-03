@@ -1,6 +1,4 @@
 package fil.l3.coo;
 public interface Intervention {
-
-    public void Interagir( Locations l);/* Doing the intervention Stuff */
-    
+    public void Interagir( int periode_of_intervention) throws Exception;/* Doing the intervention Stuff */
 }

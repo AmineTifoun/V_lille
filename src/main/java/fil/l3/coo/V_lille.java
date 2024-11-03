@@ -14,7 +14,6 @@ public class V_lille implements Subscriber { /* SINGLOTENT  */
     private List <Station> Stations ; 
     private List <Locations> vehicules ; 
 
-/* REMEMEBER TO CHECK INIT VELO ET INIT STATION */
     private V_lille () { 
         this.personnel = new ArrayList<Intervention>();
         this.Clients = new ArrayList<Client>();
@@ -23,14 +22,16 @@ public class V_lille implements Subscriber { /* SINGLOTENT  */
         this.vehicules = new ArrayList<Locations> ();
         initStation();
         initVelo();
+        initPersonnel();
     }
 
 
 
-   public static V_lille getInstance(){
-        return unique_agence ;
-    }
+    public static V_lille getInstance(){
+            return unique_agence ;
+        }
 
+    
 
     public void update(String s){
         this.notifications.add(s);
@@ -40,8 +41,6 @@ public class V_lille implements Subscriber { /* SINGLOTENT  */
         return this.notifications ;
     }
 
-    /* Only created for tests */
-    public V_lille(String s){}
 
     public void AddIntervention(Intervention i){
         this.personnel.add(i);
@@ -49,10 +48,10 @@ public class V_lille implements Subscriber { /* SINGLOTENT  */
 
     public void initStation(){
         Random rand = new Random();
-        int nb_stations = 10;
+        int nb_stations = rand.nextInt(30)+5;
         List<Station> liste = new ArrayList<>(); 
         for( int i =0  ; i< nb_stations ; i++){
-            Station s = new Station(10);
+            Station s = new Station(rand.nextInt(11)+10);
             this.addStation(s);
         }
         
@@ -60,12 +59,20 @@ public class V_lille implements Subscriber { /* SINGLOTENT  */
 
     public void initVelo(){
         Random rand = new Random();
-        int nb_velo =/* rand.nextInt(50)+10*/50;
+        int nb_velo = rand.nextInt(50)+100;
         for( int i = 0 ; i < nb_velo ; i++){
             this.vehicules.add(new Velo(10 , false , 100));
         }
     }
 
+    public void initPersonnel(){
+        Random rand = new Random();
+        int effectif = rand.nextInt(30) +5;
+        for( int i = 0 ; i < effectif ; i++){
+            Personnel p = new Reparateur("Amine", "Tifoun");
+            this.personnel.add(p);
+        }
+    }
 
     public void addStation(Station s){
         this.Stations.add(s);
@@ -172,6 +179,25 @@ public class V_lille implements Subscriber { /* SINGLOTENT  */
         List<Station> result = new ArrayList<>(s1);
         result.retainAll(s2);
         return result;
+    }
+
+    private Intervention popPersonnel(){
+        return this.personnel.remove(this.personnel.size()-1);
+    }
+
+
+    public String popNotification(){
+        return this.getNotifications().get(this.getNotifications().size()-1);
+    }
+
+    public void askForIntervention(AccesForReparation i)throws Exception{
+        /* Logique d'intervention */
+        this.notifications.add("The Product with [ id = "+ i.getId_prod()+"] is Seeking for Intervention IMMEDIALTLY !");
+        Intervention p = popPersonnel();
+        System.out.println(p);
+        p.Interagir(this.periode);
+        System.out.println("123");
+        i.setEtatSerice();
     }
     
 }

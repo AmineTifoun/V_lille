@@ -83,8 +83,7 @@ public class V_lilleTest {
 
     void TestREDISTRIBUTION_METHODE_CLASSIQUE()throws Exception{
         v.Distribution();
-        v.REDISTRIBUTION_METHODE_CLASSIQUE();
-        System.out.println("Vérification que toutes les stations ne sont pas vides...");
+        v.REDISTRIBUTION_METHODE_CLASSIQUE();   
         assertTrue(AllNotEmpty());
     }
 
@@ -97,4 +96,5 @@ public class V_lilleTest {
         return a ;
     }
 
+ 
 }
