@@ -1,5 +1,5 @@
 package fil.l3.coo;
-public abstract class DeuxRoues implements Locations , AccesForReparation  {
+public abstract class DeuxRoues implements Locations , AccesForReparation , AccesProviderForLocations  {
     protected int Id_prod ; 
     protected float caution ; 
     protected float prix_location;

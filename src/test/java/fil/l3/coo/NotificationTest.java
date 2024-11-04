@@ -61,7 +61,5 @@ public class NotificationTest {
         }
         assertEquals(this.v.popNotification(), "The Product with [ id = "+ velo.getId_prod()+"] is Seeking for Intervention IMMEDIALTLY !");
     }
-
-    
     
 }

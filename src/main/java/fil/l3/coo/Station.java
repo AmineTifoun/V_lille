@@ -6,7 +6,7 @@ import fil.l3.coo.ExceptionsControlled.NotPlacesAvailable;
 import fil.l3.coo.ExceptionsControlled.StationVide;
 
 
-public class Station implements AccesForRent{
+public class Station implements AccesProvidertoStation{
     private int id_station ;
     private List<Emplacement> places ; 
     private int nb_palces ;
