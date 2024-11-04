@@ -48,10 +48,10 @@ public class V_lille implements Subscriber { /* SINGLOTENT  */
 
     public void initStation(){
         Random rand = new Random();
-        int nb_stations = rand.nextInt(30)+5;
+        int nb_stations = /*rand.nextInt(30)+5;*/10 ;
         List<Station> liste = new ArrayList<>(); 
         for( int i =0  ; i< nb_stations ; i++){
-            Station s = new Station(rand.nextInt(11)+10);
+            Station s = new Station(/*rand.nextInt(11)+*/10);
             this.addStation(s);
         }
         
@@ -59,7 +59,7 @@ public class V_lille implements Subscriber { /* SINGLOTENT  */
 
     public void initVelo(){
         Random rand = new Random();
-        int nb_velo = rand.nextInt(50)+100;
+        int nb_velo = /*rand.nextInt(50)+100*/50;
         for( int i = 0 ; i < nb_velo ; i++){
             this.vehicules.add(new Velo(10 , false , 100));
         }
@@ -194,10 +194,17 @@ public class V_lille implements Subscriber { /* SINGLOTENT  */
         /* Logique d'intervention */
         this.notifications.add("The Product with [ id = "+ i.getId_prod()+"] is Seeking for Intervention IMMEDIALTLY !");
         Intervention p = popPersonnel();
-        System.out.println(p);
         p.Interagir(this.periode);
-        System.out.println("123");
         i.setEtatSerice();
+    }
+
+
+    public void setStations(List<Station> s){
+        this.Stations = s ;
+    }
+
+    public void setVelo(){
+    
     }
     
 }

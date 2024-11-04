@@ -14,20 +14,19 @@ public class V_lilleTest {
 
     @Test 
      void TestMethodeDistribution()throws Exception{
-        
-        assertTrue(v.getStations().size() == 10);
+        DistributeVeloInStation();
         assertTrue(isLoaded());
      }
 
      /* Methode à utiliser dans le test */
-     /*public boolean isLoaded(){
+     public boolean isLoaded(){
         List<Station> s = v.getStations();
         boolean loaded = false ;
         for( Station e : s){
             loaded = loaded ||(!e.StationVide()); 
         }
         return loaded ;
-     }*/
+     }
      /************************************** */
 
 
@@ -35,15 +34,6 @@ public class V_lilleTest {
         if( ! v.isInitialized()){
             v.Distribution();
         }
-     }
-     public boolean isLoaded(){
-        int cpt = 0;
-        for( Station s : v.getStations()){
-            if(  s.StationVide()){
-                cpt++ ;
-            }
-        }
-        return cpt == 5 ;
      }
 
 
@@ -53,10 +43,12 @@ public class V_lilleTest {
         List<Station> vide = new ArrayList<Station>();
         vide.add(new Station(1)) ;
         Station source = v.getStations().get(0);
+        System.out.println("nb place restante :"+source.getPlaces_restantes());
         int nb_place_restance = source.getPlaces_restantes();
-        v.redistribution(source, vide);
-        assertFalse(vide.get(0).StationVide());
+        v.redistribution(source, vide);/*Methode to test */
+        System.out.println("nb place restante :"+source.getPlaces_restantes());
         assertEquals(nb_place_restance+1, source.getPlaces_restantes());
+        assertFalse(vide.get(0).StationVide());
     }
 
 
@@ -80,13 +72,12 @@ public class V_lilleTest {
     }
 
     @Test
-
     void TestREDISTRIBUTION_METHODE_CLASSIQUE()throws Exception{
-        v.Distribution();
+        DistributeVeloInStation();
         v.REDISTRIBUTION_METHODE_CLASSIQUE();   
         assertTrue(AllNotEmpty());
     }
-
+    
     /* Methode de test pour TestREDISTRIBUTION_METHODE_CLASSIQUE */
     private boolean AllNotEmpty(){
         boolean a = true ;

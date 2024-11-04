@@ -8,9 +8,9 @@ public class NotificationTest {
     private V_lille v =V_lille.getInstance();
     private Locations velo = new MockVelo(false, 10, 100);
     private Station s = new Station(15);
+
     @Test
     void testNotifDepot() throws Exception {
-        
         int size = v.getNotifications().size();
         s.Deposer(velo);
         // Vérifie la notification après dépôt
@@ -49,6 +49,7 @@ public class NotificationTest {
         if( ! v.isInitialized()){
             v.Distribution();
         }
+        
      }
 
     

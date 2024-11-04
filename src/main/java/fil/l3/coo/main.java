@@ -1,19 +1,30 @@
 package fil.l3.coo;
 
+import java.util.ArrayList;
+import java.util.*;
+
 public class main {
     public static void main(String[] args) {
         V_lille v = V_lille.getInstance();
-        Velo Velo = new Velo(10, false, 100);
-        for( int i =0 ; i< 7 ; i++){
-            Velo.Louer();
-            System.out.println("1");
+        Station qs = new Station(10);
+        for(int o = 0 ; o< 10 ; o++){
+            try{
+            qs.Deposer(new Velo(10,false,100));
+            }catch(Exception e){
+
+            }
         }
+        System.out.println(qs.getPlaces_restantes());
+        Station vide = new Station(1);
+        if(! vide.StationVide()){
+            System.out.println(vide);
+        }
+        List<Station> li = new ArrayList<Station>();
+        li.add(vide);
         try{
-        Velo.askForIntervention();
-        }catch(Exception e){
-            e.printStackTrace();
-        }
+        v.redistribution(qs,li);
+        }catch(Exception e){}
+        System.out.println(qs.getPlaces_restantes());
     }
-    
 }
     

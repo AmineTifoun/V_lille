@@ -12,10 +12,10 @@ public class MockVelo extends Velo{
 
     }
 
-    /*@Override
+    @Override
     public boolean getEtatService(){
         return etat ; 
-    }*/ 
+    } 
 
 
 
