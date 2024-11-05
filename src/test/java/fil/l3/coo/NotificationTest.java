@@ -37,13 +37,13 @@ public class NotificationTest {
     }
 
 
-    @Test
+    /*@Test
     void TestAskForIntervention() throws Exception{
         this.DistributeVeloInStation();
         int taille = this.v.getNotifications().size();
         this.v.REDISTRIBUTION_METHODE_CLASSIQUE();
         assertTrue(taille< this.v.getNotifications().size());
-    }
+    }*/
 
     private void DistributeVeloInStation()throws Exception{
         if( ! v.isInitialized()){

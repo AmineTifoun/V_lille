@@ -101,19 +101,21 @@ public class V_lille implements Subscriber { /* SINGLOTENT  */
 
     public List<Station> redistribution(Station source, List<Station> dest) throws Exception {
         Iterator<Station> vide = dest.iterator();
-        
         double rapport = (double) source.getPlaces_restantes() / source.getNb_palces(); 
-        
+        System.out.println("rapport ="+rapport);
         if (!vide.hasNext()) {
             throw new StationVide();
         }
     
         Station e = vide.next();
-    
+        double taux_vide = (double)(e.getPlaces_restantes()/e.getNb_palces());
+        System.out.println("rapport a ne pas depasser est :" + this.rapport);
         while (!source.StationVide() && (rapport < this.rapport)) {
+            System.out.println("rapport ="+rapport);
+            System.out.println("etat station : "+source.StationVide());
             Locations m = source.Retirer();
-    
-            if (((e.getPlaces_restantes()/e.getNb_palces())<=0.5)) {/* On rempli jusqu'a 50% */
+            System.out.println("taux de remplissage de la vide :"+(taux_vide));
+            if (((taux_vide)<=0.5)) {/* On rempli jusqu'a 50% */
                 if (vide.hasNext()) {
                     e = vide.next();
                 } else {
@@ -127,6 +129,7 @@ public class V_lille implements Subscriber { /* SINGLOTENT  */
     
             // Recalculer le rapport pour voir si la condition est toujours satisfaite
             rapport = (double) source.getPlaces_restantes() / source.getNb_palces();
+            taux_vide = (double) e.getPlaces_restantes() / e.getNb_palces();
         }
         return dest.subList(dest.indexOf(e), dest.size());            
     }
@@ -137,13 +140,14 @@ public class V_lille implements Subscriber { /* SINGLOTENT  */
     }
 
 
-    public void REDISTRIBUTION_METHODE_CLASSIQUE() throws Exception{
-        List<List<Station>> s = NeedToDistribute(2);/* Sort les stations au quel il faut intervenir pour redistribuer */
-        if( s.size()== 2){
-            List<Station> Pleines = s.get(0);
-            List<Station> Vides = s.get(1);
+    public void REDISTRIBUTION_METHODE_CLASSIQUE(List<Station> remplies , List<Station> vide ) throws Exception{
+        
+        if( remplies != null && vide != null){
+            List<Station> Pleines = remplies;
+            List<Station> Vides = vide;
             for ( Station v : Pleines){
                 Vides = redistribution(v, Vides);
+                System.out.println(Vides);
                 if( Vides == null){
                     break ;
                 }

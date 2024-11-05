@@ -14,17 +14,19 @@ public class main {
 
             }
         }
-        System.out.println(qs.getPlaces_restantes());
-        Station vide = new Station(1);
+        Station vide = new Station(10);
         if(! vide.StationVide()){
             System.out.println(vide);
         }
         List<Station> li = new ArrayList<Station>();
         li.add(vide);
         try{
-        v.redistribution(qs,li);
-        }catch(Exception e){}
+        List<Station> q = new ArrayList<>();
+        List<Station> q1 = new ArrayList<>();
+        q.add(qs); q1.add(vide);
+        v.REDISTRIBUTION_METHODE_CLASSIQUE(q, q1);
         System.out.println(qs.getPlaces_restantes());
+        }catch(Exception e){}
     }
 }
     

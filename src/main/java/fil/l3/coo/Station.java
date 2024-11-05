@@ -33,7 +33,7 @@ public class Station implements AccesProvidertoStation{
     @Override
     public void Deposer( Locations l) throws Exception{
         List <Emplacement> dispo = this.placesAvailbale() ;
-        if(this.places.size() != 0){
+        if(! this.isStationPleine()){
             Emplacement e = dispo.get(0);
             e.Deposer(l);
             this.notifier.notify("DEPOT ", "\t LA LAOCATION : "+l.getId_prod()+"A ETE DEPOSE A LA STATION : "+this.id_station);
