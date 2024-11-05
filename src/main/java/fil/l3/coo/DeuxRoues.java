@@ -1,4 +1,9 @@
 package fil.l3.coo;
+
+import fil.l3.coo.AccesController.AccesForReparation;
+import fil.l3.coo.AccesController.AccesProviderForLocations;
+import fil.l3.coo.NotificationController.GestionnaireNotif;
+
 public abstract class DeuxRoues implements Locations , AccesForReparation , AccesProviderForLocations  {
     protected int Id_prod ; 
     protected float caution ; 

@@ -41,7 +41,7 @@ public class StationTest {
 
     @Test
     public void TestAJOUTNotOK(){
-        Station s = new Station(Nb_place_notOk);  
+        Station s = new Station(0);
         assertThrows(NotPlacesAvailable.class,()->{
             s.Deposer(v); 
         });

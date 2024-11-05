@@ -1,4 +1,4 @@
-package fil.l3.coo;
+package fil.l3.coo.AccesController;
 
 public interface AccesProviderForLocations {
 

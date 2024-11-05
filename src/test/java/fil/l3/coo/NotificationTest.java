@@ -38,15 +38,15 @@ public class NotificationTest {
 
 
     /*@Test
-    void TestAskForIntervention() throws Exception{
+    void TestAskForREDISTRIBUTION() throws Exception{
         this.DistributeVeloInStation();
         int taille = this.v.getNotifications().size();
-        this.v.REDISTRIBUTION_METHODE_CLASSIQUE();
-        assertTrue(taille< this.v.getNotifications().size());
+        /*this.v.REDISTRIBUTION(null, null);();*/
+        /*assertTrue(taille< this.v.getNotifications().size());
     }*/
 
     private void DistributeVeloInStation()throws Exception{
-        if( ! v.isInitialized()){
+        if( !v.isInitialized()){
             v.Distribution();
         }
         

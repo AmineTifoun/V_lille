@@ -1,14 +1,18 @@
 package fil.l3.coo;
 import java.util.*;
 
-import fil.l3.coo.ExceptionsControlled.StationVide;
+import fil.l3.coo.AccesController.AccesForReparation;
+import fil.l3.coo.ExceptionsControlled.StationPleine;
+import fil.l3.coo.NotificationController.Subscriber;
+import fil.l3.coo.RedistiributionStrategies.HALF_RATIO_REDISTRIBUTION;
+import fil.l3.coo.RedistiributionStrategies.REDISTRIBUTION_STRATEGY;
 
 public class V_lille implements Subscriber { /* SINGLOTENT  */
     private List<String> notifications  ;
     private static V_lille unique_agence = new V_lille(); 
     private final int periode = 1 ;/* 5 minutes */
     private List <Intervention> personnel ;
-    private final double rapport = 0.5 ; /*Rapport de remplissage minimal dans une station remplie */
+    private REDISTRIBUTION_STRATEGY strategy ;
     private List <Client> Clients ;
     private boolean initialized = false ;
     private List <Station> Stations ; 
@@ -20,6 +24,7 @@ public class V_lille implements Subscriber { /* SINGLOTENT  */
         this.notifications = new ArrayList<String>();
         this.Stations = new ArrayList<Station>();
         this.vehicules = new ArrayList<Locations> ();
+        this.strategy = new HALF_RATIO_REDISTRIBUTION(0.5);
         initStation();
         initVelo();
         initPersonnel();
@@ -48,7 +53,7 @@ public class V_lille implements Subscriber { /* SINGLOTENT  */
 
     public void initStation(){
         Random rand = new Random();
-        int nb_stations = /*rand.nextInt(30)+5;*/10 ;
+        int nb_stations = rand.nextInt(30)+5; ;
         List<Station> liste = new ArrayList<>(); 
         for( int i =0  ; i< nb_stations ; i++){
             Station s = new Station(/*rand.nextInt(11)+*/10);
@@ -59,7 +64,7 @@ public class V_lille implements Subscriber { /* SINGLOTENT  */
 
     public void initVelo(){
         Random rand = new Random();
-        int nb_velo = /*rand.nextInt(50)+100*/50;
+        int nb_velo = rand.nextInt(50)+100;
         for( int i = 0 ; i < nb_velo ; i++){
             this.vehicules.add(new Velo(10 , false , 100));
         }
@@ -85,75 +90,26 @@ public class V_lille implements Subscriber { /* SINGLOTENT  */
 
 
 
-    public void Distribution() throws Exception{ /* Distribution de tous les velos sur les n stations */
-
+    public void Distribution(){ /* Distribution de tous les velos sur les n stations */
+        System.out.println("initialisation =" +this.initialized);
         Iterator<Station> s =this.Stations.iterator();
         Station e = s.next() ;        
         for(Locations v : this.vehicules){
+            try{
                 e.Deposer(v);
-                if( s.hasNext() && e.isStationPleine() ){
-                    e = s.next();
-                }
-            
-        }
-        this.initialized = true ;
-    }
-
-    public List<Station> redistribution(Station source, List<Station> dest) throws Exception {
-        Iterator<Station> vide = dest.iterator();
-        double rapport = (double) source.getPlaces_restantes() / source.getNb_palces(); 
-        System.out.println("rapport ="+rapport);
-        if (!vide.hasNext()) {
-            throw new StationVide();
-        }
-    
-        Station e = vide.next();
-        double taux_vide = (double)(e.getPlaces_restantes()/e.getNb_palces());
-        System.out.println("rapport a ne pas depasser est :" + this.rapport);
-        while (!source.StationVide() && (rapport < this.rapport)) {
-            System.out.println("rapport ="+rapport);
-            System.out.println("etat station : "+source.StationVide());
-            Locations m = source.Retirer();
-            System.out.println("taux de remplissage de la vide :"+(taux_vide));
-            if (((taux_vide)<=0.5)) {/* On rempli jusqu'a 50% */
-                if (vide.hasNext()) {
-                    e = vide.next();
-                } else {
-                    source.Deposer(m);
-                    break;
-                }
             }
-            
-            // Déposer le vélo dans la station actuelle
-            e.Deposer(m);
-    
-            // Recalculer le rapport pour voir si la condition est toujours satisfaite
-            rapport = (double) source.getPlaces_restantes() / source.getNb_palces();
-            taux_vide = (double) e.getPlaces_restantes() / e.getNb_palces();
-        }
-        return dest.subList(dest.indexOf(e), dest.size());            
-    }
-    
-
-    public List<Station> getStations() {
-        return Stations;
-    }
-
-
-    public void REDISTRIBUTION_METHODE_CLASSIQUE(List<Station> remplies , List<Station> vide ) throws Exception{
-        
-        if( remplies != null && vide != null){
-            List<Station> Pleines = remplies;
-            List<Station> Vides = vide;
-            for ( Station v : Pleines){
-                Vides = redistribution(v, Vides);
-                System.out.println(Vides);
-                if( Vides == null){
+            catch(Exception f ){
+                if( s.hasNext()){
+                    e = s.next();
+                }else{
                     break ;
                 }
             }
         }
-    }   
+        this.initialized = true;
+    }
+
+    
 
     public  List<Station> StationARedistribuer(char etatStation){  /* p pour chercher les pleines et v pour chercher les vide */ 
         List<Station> s = new ArrayList<Station>();
@@ -203,12 +159,15 @@ public class V_lille implements Subscriber { /* SINGLOTENT  */
     }
 
 
+    public List<Station> getStations(){
+        return this.Stations ;
+    }
     public void setStations(List<Station> s){
         this.Stations = s ;
     }
 
-    public void setVelo(){
-    
+    public void REDISTRIBUTION(List<Station> Source , List<Station> dest)throws Exception{
+        this.strategy.REDISTRIBUTION(Source, dest);
     }
     
 }

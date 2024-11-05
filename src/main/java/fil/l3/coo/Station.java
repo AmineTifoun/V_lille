@@ -1,18 +1,21 @@
 package fil.l3.coo;
 import java.util.* ;
 
-import fil.l3.coo.ExceptionsControlled.IdNotFound;
-import fil.l3.coo.ExceptionsControlled.NotPlacesAvailable;
-import fil.l3.coo.ExceptionsControlled.StationVide;
+import fil.l3.coo.AccesController.AccesProvidertoStation;
+import fil.l3.coo.ExceptionsControlled.*;
+import fil.l3.coo.NotificationController.GestionnaireNotif;
+import fil.l3.coo.StateController.StationState.StationState;
+import fil.l3.coo.StateController.StationState.Station_Vide;
 
 
 public class Station implements AccesProvidertoStation{
     private int id_station ;
+    private StationState state;
     private List<Emplacement> places ; 
     private int nb_palces ;
-     private GestionnaireNotif notifier=  new GestionnaireNotif() ;
+    private GestionnaireNotif notifier=  new GestionnaireNotif() ;
     private int places_restantes ;
-    static int current_id =0 ; 
+    static int current_id =0 ;
 
 
     public Station( int nb_places ){
@@ -24,57 +27,47 @@ public class Station implements AccesProvidertoStation{
         this.nb_palces = nb_places;
         this.places_restantes =nb_places;
         this.id_station = current_id ; 
+        this.state = new Station_Vide(places);
         Incremente_ID();
        }
 
     static void Incremente_ID(){
         current_id ++ ; 
     }
+
+
     @Override
     public void Deposer( Locations l) throws Exception{
-        List <Emplacement> dispo = this.placesAvailbale() ;
-        if(! this.isStationPleine()){
-            Emplacement e = dispo.get(0);
-            e.Deposer(l);
-            this.notifier.notify("DEPOT ", "\t LA LAOCATION : "+l.getId_prod()+"A ETE DEPOSE A LA STATION : "+this.id_station);
-            this.places_restantes --;
-        }else{
-            throw new NotPlacesAvailable(); 
-        }
+            this.state.Deposer(l , this);
+
+    }
+
+    public void SetState( StationState l){
+        this.state = l ;
+    }
+
+    
+    public GestionnaireNotif getNotifier() {
+        return notifier;
+    }
+
+
+    public void setPlaces_restantes(int places_restantes) {
+        this.places_restantes = places_restantes;
     }
 
     public int getNb_palces() {
         return nb_palces;
     }
 
-    public Locations Retirer ( int id_prod) throws Exception{
-        if( !this.StationVide()){
-            Iterator<Emplacement> l = getPlaces().iterator();
-            while( l.hasNext()){
-                Emplacement element = l.next();
-                if(element.isOccupe() && element.getLocations().getId_prod() == id_prod){
-                    this.places_restantes ++;
-                    Locations v = element.Retirer();
-                    this.notifier.notify("RETRAIT ", "\t LA LAOCATION : "+v.getId_prod()+"A ETE RETIRE A LA STATION : "+this.id_station);
-                    return v  ;
-                 }
-            }
-            throw new IdNotFound();
-        }else{
-            throw new StationVide(); 
-        }
+    public static int getCurrent_id() {
+        return current_id;
     }
 
-    public Locations Retirer() throws Exception {
-        for(Emplacement v : this.places){
-            if( v.isOccupe()){
-                Locations m = v.Retirer();
-                this.notifier.notify("RETRAIT ", "\t LA LAOCATION : "+m.getId_prod()+"A ETE RETIRE A LA STATION : "+this.id_station);
-                this.places_restantes++;
-                return m ;
-            }
-        }
-        throw new StationVide();
+
+
+    public Locations Retirer() throws Exception{
+            return state.Retirer(this);
     }
 
     public boolean StationVide (){
@@ -86,37 +79,21 @@ public class Station implements AccesProvidertoStation{
     }
 
     public List<Emplacement> placesAvailbale(){
-        List<Emplacement> l = new ArrayList<Emplacement>();
-        for( Emplacement e : this.places){
-            if( !e.isOccupe()){
-                l.add(e);
-            }
-        }
-        return l ; 
+        return state.placesAvailbale();
     }
 
-    public void DeposerLot ( List<Locations> l) throws Exception{
-        for( int i = 0 ; i< l.size() && ! isStationPleine()  ; i++ ){
-            Locations element = l.get(i);
-            this.Deposer(element);
-        }
-    }
+ 
 
     public boolean isStationPleine(){
         return this.places_restantes == 0 ;
     }
-    public List<Locations> RetirerLot( List<Locations> l) throws Exception{
-        List<Locations> list = new ArrayList<Locations>();
-        for( int i = 0 ; i< l.size() ; i++ ){
-            Locations element = l.get(i);
-            list.add(this.Retirer(element.getId_prod()));
-        }
-        return list ; 
-       
-    }
-
+    
     public int getPlaces_restantes() {
         return places_restantes;
+    }
+
+    public StationState getState() {
+        return state;
     }
 
     public List<Emplacement> getPlaces() {
@@ -140,23 +117,20 @@ public class Station implements AccesProvidertoStation{
     
     
     public void Louer(Client c) throws Exception{
-        if(! this.StationVide()){
-            for( Emplacement e : this.places){
-                if( e.isOccupe() && !e.getLocations().getEtatService()){
-                    Locations s = e.Retirer();
-                    c.Louer(s);
-                    this.places_restantes++ ;
-                    this.notifier.notify("LOCATION" , "LE VELO: "+s.getId_prod() +" VIENT D'ETRES LOUE au Client : [ Nom = "+c.getNom()+"] - [ Prenom ="+c.getPrenom()+"]");
-                }
-            }
-
-        }else{
-            throw new StationVide();
-        }
+            state.Louer(c, this);
     }
+    
 
-
-   
+  public Locations Retirer ( int id_prod) throws Exception{
+            return state.Retirer(id_prod, this);
+    }
+    /* 
+           public void DeposerLot ( List<Locations> l) throws Exception{
+        for( int i = 0 ; i< l.size() && ! isStationPleine()  ; i++ ){
+            Locations element = l.get(i);
+            this.Deposer(element);
+        }
+    } */
 
     
     

@@ -1,4 +1,7 @@
-package fil.l3.coo;
+package fil.l3.coo.NotificationController;
+
+import fil.l3.coo.V_lille;
+import fil.l3.coo.AccesController.AccesForReparation;
 
 public class GestionnaireNotif {
     /* L'abonnée a cette notification est V Lille mais suite a un probleme de recusrion interminable j'ai du appelé getInstance dans la metode notifiy */

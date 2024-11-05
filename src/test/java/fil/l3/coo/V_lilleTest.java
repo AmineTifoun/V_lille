@@ -36,30 +36,7 @@ public class V_lilleTest {
         }
      }
 
-
-    @Test
-    void testRedistributionOK()throws Exception{
-        DistributeVeloInStation();
-        List<Station> vide = new ArrayList<Station>();
-        vide.add(new Station(10)) ;//*List de station Vide */
-        vide.add(new Station(10));
-        Station source = new Station(10);
-        for( int i =1 ; i<= 10 ; i++){
-            System.out.println("nb place restante :"+source.getPlaces_restantes());
-            source.Deposer(new Velo(10, false , 100));
-        }
-        int nb_place_restance = source.getPlaces_restantes();
-        System.out.println("nb place restante :"+source.getPlaces_restantes());
-        v.redistribution(source, vide);/*Methode to test */
-        System.out.println("nb place restante :"+source.getPlaces_restantes());
-        assertFalse(vide.get(0).StationVide());
-        assertEquals(vide.get(0).getPlaces_restantes() , source.getPlaces_restantes());
-        
-    }
-
     /*Rajouter test NonOK de Redestribution */
-
-
     @Test 
     void testNeedToRestribute()throws Exception {
         DistributeVeloInStation();
@@ -84,17 +61,15 @@ public class V_lilleTest {
         DistributeVeloInStation();
         Station pleine = new Station(10);
         for( int i = 0 ; i <10 ; i++ ){
-            System.out.println("nb place restante :"+pleine.getPlaces_restantes());
             pleine.Deposer(new Velo(10,false,100));
         }
-        System.out.println(pleine.getPlaces_restantes());
+        
         Station vide = new Station(10);
         List<Station> s = new ArrayList<Station>();
         s.add(pleine);
         List<Station> s1 = new ArrayList<Station>();
         s1.add(vide);
-        v.REDISTRIBUTION_METHODE_CLASSIQUE(s , s1);  
-        System.out.println(pleine.getPlaces_restantes()); 
+        v.REDISTRIBUTION(s , s1);  
         assertTrue(pleine.getPlaces_restantes() == vide.getPlaces_restantes());
     }
  
