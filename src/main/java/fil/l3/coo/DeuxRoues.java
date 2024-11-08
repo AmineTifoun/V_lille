@@ -1,5 +1,5 @@
 package fil.l3.coo;
-
+import fil.l3.coo.StateController.DeuxRoueState.*;
 import fil.l3.coo.AccesController.AccesForReparation;
 import fil.l3.coo.AccesController.AccesProviderForLocations;
 import fil.l3.coo.NotificationController.GestionnaireNotif;
@@ -10,15 +10,17 @@ public abstract class DeuxRoues implements Locations , AccesForReparation , Acce
     protected float prix_location;
     protected int nb_location =0; 
     protected boolean hors_service ;
-    protected boolean louee;
-    protected GestionnaireNotif notifier ; 
+    protected GestionnaireNotif notifier ;
+    protected boolean louee ;
+    protected DeuxRoueState state ;  
     protected boolean depose ;
     protected final int limite_location = 5 ; 
     private static int  locations_created = 0 ;
 
     public DeuxRoues(){
         this.Id_prod = locations_created ;
-        this.depose = false ;  
+        this.depose = false ; 
+        this.louee = false ; 
         this.notifier = new GestionnaireNotif(); 
         IncrementeLocationId();
     }
@@ -37,6 +39,28 @@ public abstract class DeuxRoues implements Locations , AccesForReparation , Acce
         return Id_prod;
     }
 
+
+    
+    @Override
+    public void Louer() throws Exception{
+        this.state.Louer(this);
+    }
+
+    public int getNb_location() {
+        return nb_location;
+    }
+
+    public void setNb_location(int nb_location) {
+        this.nb_location = nb_location;
+    }
+
+    public boolean isLouee() {
+        return louee;
+    }
+
+    public void setLouee(boolean louee) {
+        this.louee = louee;
+    }
 
     @Override
     public Boolean estVole(){
@@ -83,7 +107,14 @@ public abstract class DeuxRoues implements Locations , AccesForReparation , Acce
     @Override
     public void setEtatSerice(){
         this.ChangeStateService();
+        if( this.hors_service){
+            this.state = new HorsService();
+            }
+        else{
+            this.state = new OnService();
+        }
     }
+    
 
     @Override
     public float getCaution (){
@@ -102,13 +133,17 @@ public abstract class DeuxRoues implements Locations , AccesForReparation , Acce
         return this.hors_service;
     }
 
-    public void askForIntervention()throws Exception{ /* A tester */
+    public void askForIntervention()throws Exception{
         if ( this.nb_location > this.limite_location){
             this.hors_service=true ; 
-            System.out.println("11");
+            this.state = new HorsService();
             this.notifier.call_for_intervention(this);
         }
     } 
+
+    public Locations Retier() throws Exception{
+        return this.state.Retirer(this) ;
+    }
     
 
 

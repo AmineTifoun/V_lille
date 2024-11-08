@@ -9,7 +9,8 @@ public class Reparateur extends Personnel{
     }
 
     public void Reparer(int periode)throws Exception{
-        Thread.sleep(periode*60000);
+        System.out.println("\t \t ************ REPARATION EN COURS ******** \t \t ");
+        Thread.sleep(periode*60000);/*  simulation */
     }
     
 }

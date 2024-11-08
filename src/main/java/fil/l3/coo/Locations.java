@@ -1,7 +1,8 @@
 package fil.l3.coo;
 
-public interface Locations extends Comparable<Locations> {
-     void Louer();
+public interface Locations{
+     void Louer() throws Exception;
+     public Locations Retier() throws Exception;
      float getPrixLocation();
      boolean getEtatService();
      int get_NbLocation();

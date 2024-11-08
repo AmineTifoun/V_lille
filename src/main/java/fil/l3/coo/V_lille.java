@@ -10,7 +10,7 @@ import fil.l3.coo.RedistiributionStrategies.REDISTRIBUTION_STRATEGY;
 public class V_lille implements Subscriber { /* SINGLOTENT  */
     private List<String> notifications  ;
     private static V_lille unique_agence = new V_lille(); 
-    private final int periode = 1 ;/* 5 minutes */
+    private final int periode = 1 ;/* 1 en unite de 20 s */
     private List <Intervention> personnel ;
     private REDISTRIBUTION_STRATEGY strategy ;
     private List <Client> Clients ;

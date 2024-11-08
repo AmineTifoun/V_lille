@@ -2,7 +2,6 @@ package fil.l3.coo;
 import java.util.* ;
 
 import fil.l3.coo.AccesController.AccesProvidertoStation;
-import fil.l3.coo.ExceptionsControlled.*;
 import fil.l3.coo.NotificationController.GestionnaireNotif;
 import fil.l3.coo.StateController.StationState.StationState;
 import fil.l3.coo.StateController.StationState.Station_Vide;
@@ -124,13 +123,7 @@ public class Station implements AccesProvidertoStation{
   public Locations Retirer ( int id_prod) throws Exception{
             return state.Retirer(id_prod, this);
     }
-    /* 
-           public void DeposerLot ( List<Locations> l) throws Exception{
-        for( int i = 0 ; i< l.size() && ! isStationPleine()  ; i++ ){
-            Locations element = l.get(i);
-            this.Deposer(element);
-        }
-    } */
+
 
     
     

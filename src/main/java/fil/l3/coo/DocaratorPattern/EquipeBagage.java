@@ -1,4 +1,7 @@
-package fil.l3.coo;
+package fil.l3.coo.DocaratorPattern;
+
+import fil.l3.coo.DeuxRoues;
+
 public class EquipeBagage /*implements Locations */{
     private DeuxRoues v ; 
 

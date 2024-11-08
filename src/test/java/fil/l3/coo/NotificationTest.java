@@ -2,7 +2,6 @@ package fil.l3.coo;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import org.junit.platform.commons.util.ExceptionUtils;
 
 public class NotificationTest {
     private V_lille v =V_lille.getInstance();

@@ -44,7 +44,7 @@ public class Emplacement implements Comparable<Emplacement> {
 
     public Locations Retirer() throws Exception{
         if(this.occupe){
-            Locations e = this.v ;
+            Locations e = this.v.Retier() ;
             e.setDeposer(false);
             this.v = null;
             this.occupe = false ;

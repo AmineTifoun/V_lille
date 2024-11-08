@@ -1,6 +1,6 @@
 # [L3S5 COO] — Projet de conception orientée objet
 
-Travail du Monome :
+Travail du Binome :
 
 - Mohamed Amine Tifoun
 

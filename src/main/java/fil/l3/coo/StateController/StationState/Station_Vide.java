@@ -27,9 +27,7 @@ public class Station_Vide implements StationState{
     @Override
     public void Deposer( Locations l , Station s ) throws Exception{
         List <Emplacement> dispo = this.placesAvailbale() ;
-        System.out.println("dispo=="+dispo);
         if( dispo.size()==0){
-            System.out.println("rani hna");
             throw new NotPlacesAvailable();
         }else{
         Emplacement e = dispo.get(0);
